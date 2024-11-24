@@ -1,6 +1,6 @@
 {
   "name": "@blockquote/frontend-utilities",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Utilities for managing the DOM, handling events, and performing various common tasks in frontend development.",
   "keywords": [
     "dom",
