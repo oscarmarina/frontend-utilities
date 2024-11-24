@@ -1,0 +1,104 @@
+{
+  "name": "@blockquote/frontend-utilities",
+  "version": "1.0.0",
+  "description": "Utilities for managing the DOM, handling events, and performing various common tasks in frontend development.",
+  "keywords": [
+    "dom",
+    "events",
+    "dispatchEvent",
+    "treeWalker",
+    "utilities",
+    "front-end",
+    "snapshots"
+  ],
+  "homepage": "https://github.com/oscarmarina/frontend-utilities",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscarmarina/frontend-utilities.git"
+  },
+  "license": "MIT",
+  "author": "Oscar Marina",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./frontend-utilities.js": {
+      "default": "./dist/index.js"
+    },
+    "./src/frontend-utilities.js": {
+      "default": "./src/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "files": [
+    "/dist/",
+    "/src/"
+  ],
+  "scripts": {
+    "build": "vite build && tsc",
+    "format:eslint": "eslint . --fix",
+    "format:prettier": "prettier \"**/*.{js,ts,json,html}\" --write --ignore-path .prettierignore",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "prepare": "husky",
+    "test": "vitest"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,html}": [
+      "npm run format:eslint"
+    ],
+    "**/*.{js,ts,json,html}": [
+      "npm run format:prettier"
+    ]
+  },
+  "prettier": {
+    "bracketSameLine": true,
+    "bracketSpacing": false,
+    "htmlWhitespaceSensitivity": "ignore",
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": "*.{scss,css}",
+        "options": {
+          "printWidth": 280,
+          "singleQuote": false
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "@blockquote/rollup-plugin-externalize-source-dependencies": "^1.0.0",
+    "@html-eslint/eslint-plugin": "^0.27.0",
+    "@html-eslint/parser": "^0.27.0",
+    "@open-wc/testing": "^4.0.0",
+    "@types/mocha": "^10.0.10",
+    "@typescript-eslint/parser": "^8.15.0",
+    "@vitest/browser": "^2.1.5",
+    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/coverage-v8": "^2.1.5",
+    "@vitest/ui": "^2.1.5",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-lit-a11y": "^4.1.4",
+    "eslint-plugin-wc": "^2.2.0",
+    "globals": "^15.12.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "lit": "^3.2.1",
+    "playwright": "^1.49.0",
+    "prettier": "^3.3.3",
+    "ts-lit-plugin": "^2.0.2",
+    "typescript-eslint": "^8.15.0",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
