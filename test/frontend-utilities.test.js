@@ -205,7 +205,7 @@ suite('dom-utilities', () => {
       const {el, child} = createTree();
       el.attachShadow({mode: 'open'});
       el.shadowRoot?.appendChild(child);
-      const children = [...walkComposedTree({node: el, whatToShow: NodeFilter.SHOW_ELEMENT})];
+      const children = [...walkComposedTree({root: el, whatToShow: NodeFilter.SHOW_ELEMENT})];
       assert.deepEqual(children, [el, child]);
     });
 
@@ -216,13 +216,13 @@ suite('dom-utilities', () => {
       host.attachShadow({mode: 'open'});
       host.shadowRoot?.appendChild(slot);
       host.appendChild(assignedNode);
-      const children = [...walkComposedTree({node: slot, whatToShow: NodeFilter.SHOW_ELEMENT})];
+      const children = [...walkComposedTree({root: slot, whatToShow: NodeFilter.SHOW_ELEMENT})];
       assert.deepEqual(children, [slot, assignedNode]);
     });
 
     test('should yield childNodes of other nodes', () => {
       const {el, child} = createTree();
-      const children = [...walkComposedTree({node: el, whatToShow: NodeFilter.SHOW_ELEMENT})];
+      const children = [...walkComposedTree({root: el, whatToShow: NodeFilter.SHOW_ELEMENT})];
       assert.deepEqual(children, [el, child]);
     });
 
@@ -230,14 +230,14 @@ suite('dom-utilities', () => {
       const {el, child} = createTree();
       const childrenFilterAccept = [
         ...walkComposedTree({
-          node: el,
+          root: el,
           whatToShow: NodeFilter.SHOW_ELEMENT,
           filterAccept: (node) => node !== child,
         }),
       ];
       const childrenFilterReject = [
         ...walkComposedTree({
-          node: el,
+          root: el,
           whatToShow: NodeFilter.SHOW_ELEMENT,
           filterReject: (node) => node === child,
         }),
@@ -262,7 +262,7 @@ suite('dom-utilities', () => {
     test('should return the first and last focusable children', () => {
       const {parent, button} = createTreeWithFocusable();
       const walker = walkComposedTree({
-        node: parent,
+        root: parent,
         whatToShow: NodeFilter.SHOW_ELEMENT,
         filterAccept: isFocusable,
         filterReject: isElementInvisible,
@@ -277,7 +277,7 @@ suite('dom-utilities', () => {
     test('should return null if no focusable children are found', () => {
       const parent = document.createElement('div');
       const walker = walkComposedTree({
-        node: parent,
+        root: parent,
         whatToShow: NodeFilter.SHOW_ELEMENT,
         filterAccept: () => false,
       });
