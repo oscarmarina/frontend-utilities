@@ -14,6 +14,7 @@ import {
   redispatchEvent,
   urlToPlainObject,
   walkComposedTree,
+  LRUMap,
 } from '../src/index.js';
 
 class WrapperElement extends HTMLElement {
@@ -503,6 +504,54 @@ suite('dom-utilities', () => {
         assert.isObject(plainObject);
         assert.equal(plainObject.port, port);
       });
+    });
+  });
+
+  suite('LRUMap', () => {
+    afterEach(() => fixtureCleanup());
+    test('should set and get values', () => {
+      const map = new LRUMap();
+      map.set('a', 1);
+      assert.isTrue(map.has('a'));
+      assert.equal(map.get('a'), 1);
+    });
+
+    test('should evict least recently used when capacity exceeded', () => {
+      const map = new LRUMap(2);
+      map.set('a', 1);
+      map.set('b', 2);
+      map.set('c', 3);
+      assert.isFalse(map.has('a'));
+      assert.isTrue(map.has('b'));
+      assert.isTrue(map.has('c'));
+    });
+
+    test('should update recency on get', () => {
+      const map = new LRUMap(2);
+      map.set('a', 1);
+      map.set('b', 2);
+      map.get('a');
+      map.set('c', 3);
+      assert.isTrue(map.has('a'));
+      assert.isFalse(map.has('b'));
+    });
+
+    test('should update recency on has', () => {
+      const map = new LRUMap(2);
+      map.set('a', 1);
+      map.set('b', 2);
+      map.has('a');
+      map.set('c', 3);
+      assert.isTrue(map.has('a'));
+      assert.isFalse(map.has('b'));
+    });
+
+    test('should delete entries', () => {
+      const map = new LRUMap(2);
+      map.set('a', 1);
+      map.delete('a');
+      assert.isFalse(map.has('a'));
+      assert.isUndefined(map.get('a'));
     });
   });
 });
