@@ -1,96 +1,150 @@
-function* E(t) {
-  for (let e = t; e; ) {
-    const n = e instanceof HTMLElement && e.assignedSlot ? e.assignedSlot : e instanceof ShadowRoot ? e.host : e.parentNode;
-    n && (yield n), e = n;
+function* E(e) {
+  for (let t = e; t; ) {
+    const s = t instanceof HTMLElement && t.assignedSlot ? t.assignedSlot : t instanceof ShadowRoot ? t.host : t.parentNode;
+    s && (yield s), t = s;
   }
 }
-const y = (t, e) => {
-  let n = e;
-  for (; n; ) {
-    const s = n.assignedSlot || n.parentNode || n.host;
-    if (s === t)
+const g = (e, t) => {
+  let s = t;
+  for (; s; ) {
+    const n = s.assignedSlot || s.parentNode || s.host;
+    if (n === e)
       return !0;
-    n = s;
+    s = n;
   }
   return !1;
-}, h = (t = document) => {
-  const e = t == null ? void 0 : t.activeElement;
-  return e ? e.shadowRoot ? h(e.shadowRoot) ?? e : e : document.body;
-}, g = (t) => {
-  let e = null, n = null;
-  for (const s of t)
-    e || (e = s), n = s;
-  return [e, n];
-}, m = (t) => (t || "").replace(/<!--[\s\S]*?-->/g, ""), p = (t) => m(t).replace(/\s\s+/g, ""), r = (t, e) => {
-  ((t == null ? void 0 : t.nodeType) === 1 || (t == null ? void 0 : t.nodeType) === 11) && Array.isArray(e) && (t.nodeType === 1 && e.forEach(
-    (n) => (
+}, u = (e = document) => {
+  const t = e == null ? void 0 : e.activeElement;
+  return t ? t.shadowRoot ? u(t.shadowRoot) ?? t : t : document.body;
+}, y = (e) => {
+  let t = null, s = null;
+  for (const n of e)
+    t || (t = n), s = n;
+  return [t, s];
+}, p = (e) => (e || "").replace(/<!--[\s\S]*?-->/g, ""), m = (e) => p(e).replace(/\s\s+/g, ""), d = (e, t) => {
+  ((e == null ? void 0 : e.nodeType) === 1 || (e == null ? void 0 : e.nodeType) === 11) && Array.isArray(t) && (e.nodeType === 1 && t.forEach(
+    (s) => (
       /** @type {HTMLElement} */
-      t.removeAttribute(n)
+      e.removeAttribute(s)
     )
-  ), [...t.childNodes].forEach((n) => r(n, e)));
-}, w = (t, e = []) => {
-  const n = t instanceof HTMLElement, s = t instanceof ShadowRoot;
-  if (n || s) {
-    e.length > 0 && r(t, e);
-    const o = s ? t.innerHTML : t.outerHTML;
-    return p(o);
+  ), [...e.childNodes].forEach((s) => d(s, t)));
+}, w = (e, t = []) => {
+  const s = e instanceof HTMLElement, n = e instanceof ShadowRoot;
+  if (s || n) {
+    t.length > 0 && d(e, t);
+    const i = n ? e.innerHTML : e.outerHTML;
+    return m(i);
   }
   return "";
-}, T = (t, e) => {
-  const { top: n, left: s, height: o, width: i } = t, { clientX: a, clientY: c } = e;
-  return c >= n && c <= n + o && a >= s && a <= s + i;
-}, C = (t, e = ["dialog", "[popover]"]) => {
-  if (!t || !(t instanceof HTMLElement) || t.matches(e.join(",")))
+}, T = (e, t) => {
+  const { top: s, left: n, height: i, width: o } = e, { clientX: a, clientY: c } = t;
+  return c >= s && c <= s + i && a >= n && a <= n + o;
+}, C = (e, t = ["dialog", "[popover]"]) => {
+  if (!e || !(e instanceof HTMLElement) || e.matches(t.join(",")))
     return !1;
-  const { display: n, visibility: s, opacity: o } = window.getComputedStyle(t), i = n === "none" || s === "hidden" || s === "collapse" || o === "0", a = t.matches('[disabled], [hidden], [inert], [aria-hidden="true"]');
-  return i || a;
-}, L = (t) => {
-  var s;
-  return t instanceof HTMLElement ? t.matches('a[href],area[href],button:not([disabled]),details,iframe,object,input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[contentEditable="true"],[tabindex]:not([tabindex^="-"]),audio[controls],video[controls]') ? !0 : t.localName.includes("-") && t.matches('[disabled], [aria-disabled="true"]') ? !1 : (
+  const { display: s, visibility: n, opacity: i } = window.getComputedStyle(e), o = s === "none" || n === "hidden" || n === "collapse" || i === "0", a = e.matches('[disabled], [hidden], [inert], [aria-hidden="true"]');
+  return o || a;
+}, L = (e) => {
+  var n;
+  return e instanceof HTMLElement ? e.matches('a[href],area[href],button:not([disabled]),details,iframe,object,input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[contentEditable="true"],[tabindex]:not([tabindex^="-"]),audio[controls],video[controls]') ? !0 : e.localName.includes("-") && e.matches('[disabled], [aria-disabled="true"]') ? !1 : (
     /** @type {ShadowRoot | *} */
-    ((s = t.shadowRoot) == null ? void 0 : s.delegatesFocus) ?? !1
+    ((n = e.shadowRoot) == null ? void 0 : n.delegatesFocus) ?? !1
   ) : !1;
-}, H = (t = 10) => Math.random().toString(36).substring(2, t), d = (t, e, n) => {
-  e.bubbles && (!t.shadowRoot || e.composed) && e.stopPropagation();
-  const { bubbles: s, cancelable: o, composed: i } = e, a = e instanceof CustomEvent ? e.detail : null, c = { composed: i, bubbles: s, cancelable: o, detail: a, ...n }, f = n ? [e.type, { ...e, ...c }] : [e.type, e], u = Reflect.construct(e.constructor, f), l = t.dispatchEvent(u);
-  return l || e.preventDefault(), l;
-}, R = (t, e, n) => {
-  if (typeof e == "string") {
-    const s = e, o = new CustomEvent(s);
-    return d(t, o, n);
+};
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+class M {
+  /**
+   * @param {number} [capacity=10] - The maximum number of entries allowed in the map.
+   */
+  constructor(t = 10) {
+    this.capacity = t, this.map = /* @__PURE__ */ new Map();
   }
-  return d(t, e, n);
-}, S = (t) => {
-  const e = typeof t == "string" ? new URL(t) : t, n = {};
-  for (const s in e)
-    typeof e[s] == "string" && (n[s] = e[s]);
-  return n;
+  /**
+   * @param {*} key - The key to test for presence in the map.
+   * @returns {boolean} Whether the key exists.
+   */
+  has(t) {
+    return this.reinsertIfPresent(t), this.map.has(t);
+  }
+  /**
+   * @param {*} key - The key whose value to retrieve.
+   * @returns {*|undefined} The stored value, or `undefined` if not found.
+   */
+  get(t) {
+    return this.reinsertIfPresent(t), this.map.get(t);
+  }
+  /**
+   * @param {*} key - The key to set.
+   * @param {*} value - The value to associate with the key.
+   */
+  set(t, s) {
+    if (this.delete(t), this.map.set(t, s), this.map.size > this.capacity) {
+      const [n] = this.map.keys();
+      this.map.delete(n);
+    }
+  }
+  /**
+   * @param {*} key - The key to remove.
+   */
+  delete(t) {
+    this.map.has(t) && this.map.delete(t);
+  }
+  /**
+   * @param {*} key - The key of the entry to reinsert as most recently used.
+   */
+  reinsertIfPresent(t) {
+    if (this.map.has(t)) {
+      const s = this.map.get(t);
+      this.map.delete(t), this.map.set(t, s);
+    }
+  }
+}
+const R = (e = 10) => Math.random().toString(36).substring(2, e), r = (e, t, s) => {
+  t.bubbles && (!e.shadowRoot || t.composed) && t.stopPropagation();
+  const { bubbles: n, cancelable: i, composed: o } = t, a = t instanceof CustomEvent ? t.detail : null, c = { composed: o, bubbles: n, cancelable: i, detail: a, ...s }, f = s ? [t.type, { ...t, ...c }] : [t.type, t], h = Reflect.construct(t.constructor, f), l = e.dispatchEvent(h);
+  return l || t.preventDefault(), l;
+}, H = (e, t, s) => {
+  if (typeof t == "string") {
+    const n = t, i = new CustomEvent(n);
+    return r(e, i, s);
+  }
+  return r(e, t, s);
+}, S = (e) => {
+  const t = typeof e == "string" ? new URL(e) : e, s = {};
+  for (const n in t)
+    typeof t[n] == "string" && (s[n] = t[n]);
+  return s;
 };
 function* b({
-  root: t,
-  whatToShow: e = 0,
-  filterAccept: n = () => !0,
-  filterReject: s = () => !1
+  root: e,
+  whatToShow: t = 0,
+  filterAccept: s = () => !0,
+  filterReject: n = () => !1
 }) {
-  if (e && t.nodeType !== e || s(t))
+  if (t && e.nodeType !== t || n(e))
     return;
-  n(t) && (yield t);
-  const o = t instanceof HTMLElement && t.shadowRoot ? t.shadowRoot.children : t instanceof HTMLSlotElement ? t.assignedNodes({ flatten: !0 }) : t.childNodes;
-  for (const i of o)
-    yield* b({ root: i, whatToShow: e, filterAccept: n, filterReject: s });
+  s(e) && (yield e);
+  const i = e instanceof HTMLElement && e.shadowRoot ? e.shadowRoot.children : e instanceof HTMLSlotElement ? e.assignedNodes({ flatten: !0 }) : e.childNodes;
+  for (const o of i)
+    yield* b({ root: o, whatToShow: t, filterAccept: s, filterReject: n });
 }
 export {
+  M as LRUMap,
   E as composedAncestors,
-  y as deepContains,
-  h as getDeepActiveElement,
-  g as getFirstAndLastItems,
+  g as deepContains,
+  u as getDeepActiveElement,
+  y as getFirstAndLastItems,
   w as htmlStructureSnapshot,
   T as isClickInsideRect,
   C as isElementInvisible,
   L as isFocusable,
-  H as randomID,
-  R as redispatchEvent,
-  d as redispatchEventFromEvent,
+  R as randomID,
+  H as redispatchEvent,
+  r as redispatchEventFromEvent,
   S as urlToPlainObject,
   b as walkComposedTree
 };

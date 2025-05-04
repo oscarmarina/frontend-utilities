@@ -6,6 +6,7 @@ export { htmlStructureSnapshot } from "./htmlStructureSnapshot.js";
 export { isClickInsideRect } from "./isClickInsideRect.js";
 export { isElementInvisible } from "./isElementInvisible.js";
 export { isFocusable } from "./isFocusable.js";
+export { LRUMap } from "./LruMap.js";
 export { randomID } from "./randomID.js";
 export { urlToPlainObject } from "./urlToPlainObject.js";
 export { walkComposedTree } from "./walkComposedTree.js";

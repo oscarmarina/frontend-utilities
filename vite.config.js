@@ -12,13 +12,35 @@ const outDir = process.env.OUTDIR || '.';
 export default defineConfig({
   test: {
     onConsoleLog(log, type) {
-      if (log.includes('in dev mode')) {
+      if (type === 'stderr' && log.includes('in dev mode')) {
         return false;
       }
     },
     include: ['test/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    browser: {
+      enabled: true,
+      headless: true,
+      provider: 'playwright',
+      screenshotFailures: false,
+      viewport: {width: 1920, height: 1080},
+      instances: [
+        {
+          browser: 'chromium',
+          launch: {
+            devtools: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
+          },
+          context: {},
+        },
+        {
+          browser: 'webkit',
+          launch: {},
+          context: {},
+        },
+      ],
+    },
     coverage: {
-      provider: 'v8',
+      provider: 'istanbul',
       reportsDirectory: `${outDir}/test/coverage/`,
       reporter: ['lcov', 'text-summary'],
       enabled: true,
@@ -30,18 +52,6 @@ export default defineConfig({
       },
       include: ['**/src/**/*'],
       exclude: ['**/src/**/index.*', '**/src/styles/'],
-    },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: 'chromium',
-      provider: 'playwright',
-      viewport: {width: 1920, height: 1080},
-      providerOptions: {
-        launch: {
-          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
-        },
-      },
     },
   },
   plugins: [

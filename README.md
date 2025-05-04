@@ -329,7 +329,7 @@ export const htmlStructureSnapshot = (node, ignoreAttributes = []) => {
 };
 ```
 
-## Miscellaneous Functions
+## Miscellaneous
 
 ### `randomID`
 
@@ -366,6 +366,21 @@ export const urlToPlainObject = (url) => {
   }
   return plainObject;
 };
+```
+
+### `LRUMap`
+
+```js
+/**
+ * A limited-capacity map with a least-recently-used (LRU) eviction policy.
+ * Includes the operations `get`, `set`, and `has`, which behave the same as on a `Map`.
+ *
+ * @param {number} [capacity=10] - The maximum number of entries allowed in the map.
+ */
+const map = new LRUMap(2);
+map.set('a', 1);
+map.set('b', 2);
+map.set('c', 3);
 ```
 
 ---
